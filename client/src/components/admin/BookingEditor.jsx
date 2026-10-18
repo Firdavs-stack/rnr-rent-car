@@ -1,0 +1,10 @@
+import {useState} from 'react';
+import {api} from '../../api';
+import {localDateString} from '../../../../shared/dates';
+export default function BookingEditor({booking,onSaved,onClose}){
+ const active=['ACTIVE','RETURNING'].includes(booking.status);
+ const [form,setForm]=useState({pickupDate:localDateString(booking.pickupDate),pickupTime:booking.pickupTime,returnDate:localDateString(booking.returnDate),returnTime:booking.returnTime,pickupLocation:booking.pickupLocation||'',returnLocation:booking.returnLocation||'',managerNotes:booking.managerNotes||''});
+ const [error,setError]=useState(''),[busy,setBusy]=useState(false);
+ const save=async e=>{e.preventDefault();setError('');setBusy(true);try{await api.bookings.edit(booking.id,form);await onSaved();}catch(e){setError(e.message);}finally{setBusy(false);}};
+ return <form onSubmit={save} className="form-panel"><h3>{active?'Продление аренды':'Изменение заявки'}</h3><p className="demo-note">Суточная ставка заявки сохраняется. Итог пересчитывается сервером; пересечения проверяются до сохранения.</p><div className="form-grid">{[['pickupDate','Получение','date'],['pickupTime','Время получения','time'],['returnDate','Возврат','date'],['returnTime','Время возврата','time'],['pickupLocation','Место получения','text'],['returnLocation','Место возврата','text']].map(([key,label,type])=><label key={key}>{label}<input type={type} required={['date','time'].includes(type)} disabled={active&&key.startsWith('pickup')} value={form[key]} onChange={e=>setForm({...form,[key]:e.target.value})}/></label>)}<label>Заметки менеджера<textarea maxLength={2000} value={form.managerNotes} onChange={e=>setForm({...form,managerNotes:e.target.value})}/></label></div>{error&&<p role="alert" className="error-message">{error}</p>}<div className="actions"><button className="btn btn-primary btn-sm" disabled={busy}>{busy?'Сохраняем…':'Сохранить изменения'}</button><button type="button" className="btn btn-secondary btn-sm" onClick={onClose}>Закрыть форму</button></div></form>;
+}

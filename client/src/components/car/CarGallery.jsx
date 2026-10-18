@@ -1,0 +1,13 @@
+import {useState,useEffect,useRef,useCallback} from 'react';
+import Modal from '../ui/Modal';
+export default function CarGallery({images=[],name}){
+ const [index,setIndex]=useState(0),[full,setFull]=useState(false),touch=useRef(null);
+ const close=useCallback(()=>setFull(false),[]);
+ const signature=images.map(image=>image.id||image.url).join('|');
+ useEffect(()=>{setIndex(0);setFull(false);},[name,signature]);
+ const next=useCallback(delta=>setIndex(i=>images.length?(i+delta+images.length)%images.length:0),[images.length]);
+ useEffect(()=>{if(!full)return;const key=e=>{if(e.key==='ArrowRight'){e.preventDefault();next(1);}if(e.key==='ArrowLeft'){e.preventDefault();next(-1);}};document.addEventListener('keydown',key);return()=>document.removeEventListener('keydown',key);},[full,next]);
+ if(!images.length)return <div className="media-missing" style={{minHeight:360}}><span>{name}</span><small>Фотография пока недоступна</small></div>;
+ const activeIndex=Math.min(index,images.length-1),image=images[activeIndex];
+ return <><div onTouchStart={e=>{touch.current=e.touches[0].clientX;}} onTouchEnd={e=>{if(touch.current!==null){const delta=e.changedTouches[0].clientX-touch.current;if(Math.abs(delta)>40)next(delta<0?1:-1);touch.current=null;}}}><button aria-label="Увеличить фотографию" onClick={()=>setFull(true)} style={{border:0,padding:0,width:'100%',background:'#191915'}}><img src={image.url} alt={image.alt||name} style={{width:'100%',aspectRatio:'16/10',objectFit:'cover'}}/></button><div className="actions">{images.map((img,i)=><button key={img.id||img.url} aria-label={`Фотография ${i+1}`} aria-pressed={activeIndex===i} onClick={()=>setIndex(i)} style={{padding:0,border:activeIndex===i?'2px solid var(--color-accent)':'2px solid transparent'}}><img src={img.url} alt="" loading="lazy" style={{width:88,height:60,objectFit:'cover'}}/></button>)}</div>{image.source&&<small style={{display:'block',color:'var(--color-text-muted)'}}>Фото: {image.source.author} · <a href={image.source.source} target="_blank" rel="noreferrer">Источник</a> · <a href={image.source.licenseUrl} target="_blank" rel="noreferrer">{image.source.license}</a>. Уменьшено и преобразовано в WebP. Комплектация экземпляра уточняется.</small>}</div>{full&&<Modal title="Галерея автомобиля" onClose={close}><img src={image.url} alt={image.alt||name} style={{width:'100%',maxHeight:'65dvh',objectFit:'contain'}}/><div className="actions" style={{justifyContent:'center'}}><button className="btn btn-secondary" onClick={()=>next(-1)} aria-label="Предыдущая">←</button><span>{activeIndex+1} / {images.length}</span><button className="btn btn-secondary" onClick={()=>next(1)} aria-label="Следующая">→</button></div></Modal>}</>;
+}

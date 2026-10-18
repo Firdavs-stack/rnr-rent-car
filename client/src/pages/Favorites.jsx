@@ -1,0 +1,4 @@
+import { useState,useEffect } from 'react';
+import { api } from '../api';
+import CarCard from '../components/car/CarCard';
+export default function Favorites(){const [cars,setCars]=useState([]),[error,setError]=useState(''),[loading,setLoading]=useState(true);useEffect(()=>{api.favorites.list().then(setCars).catch(e=>setError(e.message)).finally(()=>setLoading(false));},[]);return <div className="page-header"><div className="container"><h1>Избранное</h1>{error&&<p role="alert">{error}</p>}{loading?<div className="spinner"/>:<div className="car-grid">{cars.map(c=><div key={c.id}><CarCard car={c}/><button className="btn btn-secondary btn-sm" style={{marginTop:12}} onClick={async()=>{try{await api.favorites.remove(c.id);setCars(cars.filter(x=>x.id!==c.id));}catch(e){setError(e.message);}}}>Убрать из избранного</button></div>)}</div>}{!loading&&!cars.length&&<p className="empty-state">Сохраните понравившиеся автомобили на их страницах.</p>}</div></div>;}

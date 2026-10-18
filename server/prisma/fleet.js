@@ -1,0 +1,17 @@
+export const fleet = [
+ ['byd-chazor-champion','BYD','Chazor Champion',45,'Седан','Комфорт','Гибрид'],
+ ['chevrolet-onix','Chevrolet','Onix',30,'Седан','Эконом',null],
+ ['chevrolet-tahoe','Chevrolet','Tahoe',150,'Внедорожник','Премиум',null],
+ ['chevrolet-tracker','Chevrolet','Tracker',40,'Кроссовер','Комфорт',null],
+ ['chevrolet-malibu-xl','Chevrolet','Malibu XL',55,'Седан','Бизнес',null],
+ ['hyundai-tucson','Hyundai','Tucson',50,'Кроссовер','Комфорт',null],
+ ['kia-k5','Kia','K5',50,'Седан','Бизнес',null],
+ ['toyota-camry','Toyota','Camry',70,'Седан','Бизнес',null],
+ ['toyota-land-cruiser','Toyota','Land Cruiser',180,'Внедорожник','Премиум',null],
+ ['toyota-rav4','Toyota','RAV4',65,'Кроссовер','Комфорт',null],
+ ['li-auto-l9','Li Auto','L9',150,'Внедорожник','Премиум',null],
+ ['mercedes-e-class','Mercedes-Benz','E-Class',120,'Седан','Премиум',null],
+ ['byd-song-plus','BYD','Song Plus',50,'Кроссовер','Комфорт',null],
+ ['byd-song-pro-dm-i','BYD','Song Pro DM-i',45,'Кроссовер','Комфорт','Гибрид'],
+ ['byd-han','BYD','Han',85,'Седан','Бизнес',null],
+].map(([slug,brand,model,pricePerDay,bodyType,category,fuelType])=>({slug,brand,model,pricePerDay,bodyType,category,fuelType,year:null,shortDesc:`${bodyType} для ${category==='Эконом'?'городских поездок':category==='Премиум'?'особых маршрутов':'комфортных поездок'}`,description:`${brand} ${model} в демонстрационном автопарке RNR. Цена учебная. Год выпуска и комплектация конкретного экземпляра уточняются при выдаче. Фотографии показывают указанную модель; подтверждение конкретной комплектации ими не заявляется.`,specs:{'Кузов':bodyType,'Класс':category},features:['Комплектация конкретного экземпляра уточняется'],rentalTerms:{minimumAge:21,experienceYears:2,depositUSD:200,dailyMileage:300}}));

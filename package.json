@@ -1,0 +1,18 @@
+{
+  "name": "rnr-rent-car",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "npm --prefix client run build",
+    "dev": "node scripts/dev.js",
+    "setup": "npm --prefix client ci && npm --prefix server ci",
+    "test": "npm --prefix server test",
+    "test:smoke": "npm --prefix server run test:smoke",
+    "db:local": "npm --prefix server run db:local",
+    "db:migrate": "npm --prefix server run db:migrate",
+    "db:seed": "npm --prefix server run db:seed",
+    "media:import": ".local/media-tools/bin/python3 scripts/import-media.py",
+    "test:browser": "npm --prefix server run test:browser",
+    "test:regression": "npm --prefix server run test:regression"
+  }
+}

@@ -1,0 +1,13 @@
+import {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {useAuth} from '../hooks/useAuth';
+import {api} from '../api';
+export default function Profile(){
+ const {user,refreshUser}=useAuth(),navigate=useNavigate();
+ const [form,setForm]=useState({firstName:user.firstName,lastName:user.lastName,phone:user.phone||''});
+ const [passwords,setPasswords]=useState({currentPassword:'',newPassword:'',confirmPassword:''});
+ const [error,setError]=useState(''),[message,setMessage]=useState(''),[busy,setBusy]=useState(false);
+ const save=async e=>{e.preventDefault();setError('');setMessage('');setBusy(true);try{await api.users.updateProfile(form);await refreshUser();setMessage('Профиль сохранён');}catch(e){setError(e.message);}finally{setBusy(false);}};
+ const change=async e=>{e.preventDefault();setError('');setMessage('');if(passwords.newPassword!==passwords.confirmPassword){setError('Подтверждение пароля не совпадает');return;}setBusy(true);try{await api.auth.changePassword(passwords);navigate('/login',{state:{message:'Пароль изменён. Войдите с новым паролем.'}});await refreshUser();}catch(e){setError(e.message);}finally{setBusy(false);}};
+ return <div className="page-header"><div className="container" style={{maxWidth:800}}><h1>Профиль</h1>{error&&<p role="alert" className="error-message">{error}</p>}{message&&<p role="status" className="success-message">{message}</p>}<form className="form-panel" onSubmit={save}><div className="form-grid"><label>Email<input disabled value={user.email}/></label>{[['firstName','Имя'],['lastName','Фамилия'],['phone','Телефон']].map(([key,label])=><label key={key}>{label}<input maxLength={key==='phone'?40:100} required={key!=='phone'} value={form[key]} onChange={e=>setForm({...form,[key]:e.target.value})}/></label>)}</div><button className="btn btn-primary" style={{marginTop:20}} disabled={busy}>Сохранить профиль</button></form><form className="form-panel" onSubmit={change}><h2>Сменить пароль</h2><p className="demo-note">После смены пароля все текущие сессии завершатся.</p><div className="form-grid">{[['currentPassword','Текущий пароль'],['newPassword','Новый пароль'],['confirmPassword','Повторите новый пароль']].map(([key,label])=><label key={key}>{label}<input type="password" autoComplete={key==='currentPassword'?'current-password':'new-password'} minLength={key==='currentPassword'?undefined:8} maxLength={72} required value={passwords[key]} onChange={e=>setPasswords({...passwords,[key]:e.target.value})}/></label>)}</div><button className="btn btn-primary" style={{marginTop:20}} disabled={busy}>Изменить пароль</button></form></div></div>;
+}

@@ -1,0 +1,62 @@
+{
+  "byd-chazor-champion": {
+    "brand": "BYD",
+    "model": "Chazor Champion"
+  },
+  "chevrolet-onix": {
+    "brand": "Chevrolet",
+    "model": "Onix"
+  },
+  "chevrolet-tahoe": {
+    "brand": "Chevrolet",
+    "model": "Tahoe"
+  },
+  "chevrolet-tracker": {
+    "brand": "Chevrolet",
+    "model": "Tracker"
+  },
+  "chevrolet-malibu-xl": {
+    "brand": "Chevrolet",
+    "model": "Malibu XL"
+  },
+  "hyundai-tucson": {
+    "brand": "Hyundai",
+    "model": "Tucson"
+  },
+  "kia-k5": {
+    "brand": "Kia",
+    "model": "K5"
+  },
+  "toyota-camry": {
+    "brand": "Toyota",
+    "model": "Camry"
+  },
+  "toyota-land-cruiser": {
+    "brand": "Toyota",
+    "model": "Land Cruiser"
+  },
+  "toyota-rav4": {
+    "brand": "Toyota",
+    "model": "RAV4"
+  },
+  "li-auto-l9": {
+    "brand": "Li Auto",
+    "model": "L9"
+  },
+  "mercedes-e-class": {
+    "brand": "Mercedes-Benz",
+    "model": "E-Class"
+  },
+  "byd-song-plus": {
+    "brand": "BYD",
+    "model": "Song Plus"
+  },
+  "byd-song-pro-dm-i": {
+    "brand": "BYD",
+    "model": "Song Pro DM-i"
+  },
+  "byd-han": {
+    "brand": "BYD",
+    "model": "Han"
+  }
+}

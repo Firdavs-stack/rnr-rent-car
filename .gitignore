@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+.env.*
+.local/
+server/uploads/
+.DS_Store
+*.zip
+*.log
+__pycache__/
